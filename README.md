@@ -1,0 +1,51 @@
+# Mini-ERP - Inventory Management System
+
+This is a backend project developed in **Java 25** and **Spring Boot**, focused on enterprise inventory management. It was built as part of my software engineering portfolio, aiming for high scalability and clean architecture standards—skills highly valued by companies like **SAP**.
+
+## 🚀 Technologies
+* **Java 25**
+* **Spring Boot 3.2.2**
+* **Spring Data JPA** (Hibernate)
+* **H2 Database** (In-memory)
+* **Maven** (Dependency Management)
+* **Swagger/OpenAPI** (API Documentation)
+
+## 📋 Features
+* **Full CRUD**: Create, Read, Update, and Delete products.
+* **Category Relationship**: Products are linked to categories using a @ManyToOne relationship.
+* **Business Logic**: Automatic stock reduction endpoint with validation (cannot reduce below zero).
+* **Global Exception Handling**: Standardized error responses for business logic failures.
+* **Database Seeding**: Automatic data population on startup for testing.
+
+## 🛠️ How to run the project locally
+
+Follow these steps to get the project up and running on your machine:
+
+### Prerequisites
+* **JDK 21 or 25** installed.
+* **Git** installed.
+* An IDE (IntelliJ IDEA, Eclipse, or VS Code).
+
+### Steps
+1. **Clone the repository:**
+   git clone https://github.com/vitornoms1/mini-erp-java.git
+
+2. **Navigate to the project folder:**
+   cd mini-erp-java
+
+3. **Run the application:**
+    - If you are using IntelliJ, just run the ProjetoJavaApplication.java file.
+    - Or via terminal using Maven: ./mvnw spring-boot:run
+
+### 🔗 Testing the API
+Once the application starts, you can interact with it using:
+
+* **API Endpoints**: http://localhost:8080/products
+* **Interactive Documentation (Swagger)**: http://localhost:8080/swagger-ui/index.html
+* **H2 Database Console**: http://localhost:8080/h2-console
+    * **JDBC URL**: jdbc:h2:mem:testdb
+    * **User**: vitor
+    * **Password**: 2007
+
+---
+Developed by Vitor Noms Kuhn - Software Engineering Student at Unilasalle.
