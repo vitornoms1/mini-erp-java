@@ -7,13 +7,16 @@ This is a backend project developed in **Java 25** and **Spring Boot**, focused 
 * **Spring Boot 3.2.2**
 * **Spring Data JPA** (Hibernate)
 * **H2 Database** (In-memory)
+* **JUnit 5** (Unit Testing)
 * **Maven** (Dependency Management)
 * **Swagger/OpenAPI** (API Documentation)
 
 ## 📋 Features
 * **Full CRUD**: Create, Read, Update, and Delete products.
 * **Category Relationship**: Products are linked to categories using a @ManyToOne relationship.
+* **Audit Fields**: Automatic tracking of `createdAt` and `updatedAt` for every product.
 * **Business Logic**: Automatic stock reduction endpoint with validation (cannot reduce below zero).
+* **Automated Testing**: Unit tests to ensure business rules are always met.
 * **Global Exception Handling**: Standardized error responses for business logic failures.
 * **Database Seeding**: Automatic data population on startup for testing.
 
@@ -37,6 +40,9 @@ Follow these steps to get the project up and running on your machine:
     - If you are using IntelliJ, just run the ProjetoJavaApplication.java file.
     - Or via terminal using Maven: ./mvnw spring-boot:run
 
+4. **Run Tests:**
+    - Execute: ./mvnw test
+
 ### 🔗 Testing the API
 Once the application starts, you can interact with it using:
 
@@ -44,8 +50,8 @@ Once the application starts, you can interact with it using:
 * **Interactive Documentation (Swagger)**: http://localhost:8080/swagger-ui/index.html
 * **H2 Database Console**: http://localhost:8080/h2-console
     * **JDBC URL**: jdbc:h2:mem:testdb
-    * **User**: vitor
-    * **Password**: 2007
+    * **User**: sa
+    * **Password**: (leave blank)
 
 ---
 Developed by Vitor Noms Kuhn - Software Engineering Student at Unilasalle.

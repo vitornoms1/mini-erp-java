@@ -2,12 +2,15 @@ package com.vitor.projetoJava.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.Objects;
 
 /**
- * Entity representing a product in the ERP system.
+ * Entity representing a product with audit fields.
  */
 @Entity
 @Table(name = "tb_products")
@@ -21,6 +24,13 @@ public class Product implements Serializable {
     private String name;
     private BigDecimal price;
     private Integer quantity;
+
+    @Column(updatable = false)
+    @CreationTimestamp
+    private Instant createdAt;
+
+    @UpdateTimestamp
+    private Instant updatedAt;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -39,6 +49,9 @@ public class Product implements Serializable {
 
     public Integer getQuantity() { return quantity; }
     public void setQuantity(Integer quantity) { this.quantity = quantity; }
+
+    public Instant getCreatedAt() { return createdAt; }
+    public Instant getUpdatedAt() { return updatedAt; }
 
     public Category getCategory() { return category; }
     public void setCategory(Category category) { this.category = category; }
