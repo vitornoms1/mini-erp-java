@@ -17,7 +17,7 @@ import java.util.Arrays;
  * This runs automatically when the application starts.
  */
 @Configuration
-@Profile("test") // This ensures this data only loads in test mode
+@Profile("test")
 public class TestConfig implements CommandLineRunner {
 
     @Autowired
@@ -29,6 +29,10 @@ public class TestConfig implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+        // Limpa o banco MongoDB antes de popular para evitar duplicatas nos testes
+        productRepository.deleteAll();
+        categoryRepository.deleteAll();
+
         // 1. Creating categories first
         Category cat1 = new Category();
         cat1.setName("Electronics");
@@ -36,7 +40,7 @@ public class TestConfig implements CommandLineRunner {
         Category cat2 = new Category();
         cat2.setName("Accessories");
 
-        // Saving categories to the H2 database
+        // Saving categories to MongoDB
         categoryRepository.saveAll(Arrays.asList(cat1, cat2));
 
         // 2. Creating products and linking them to categories
@@ -44,17 +48,17 @@ public class TestConfig implements CommandLineRunner {
         p1.setName("Laptop SAP Edition");
         p1.setPrice(new BigDecimal("3500.00"));
         p1.setQuantity(10);
-        p1.setCategory(cat1); // Linking to Electronics
+        p1.setCategory(cat1);
 
         Product p2 = new Product();
         p2.setName("Wireless Mouse");
         p2.setPrice(new BigDecimal("150.00"));
         p2.setQuantity(50);
-        p2.setCategory(cat2); // Linking to Accessories
+        p2.setCategory(cat2);
 
-        // Saving products to the H2 database
+        // Saving products to MongoDB
         productRepository.saveAll(Arrays.asList(p1, p2));
 
-        System.out.println("Database seeded successfully with Categories and Products!");
+        System.out.println("Database seeded successfully with Categories and Products in MongoDB!");
     }
 }

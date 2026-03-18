@@ -1,33 +1,35 @@
 package com.vitor.projetoJava.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 /**
- * Entity representing a product category.
+ * Document representing a product category in MongoDB.
  */
-@Entity
-@Table(name = "tb_categories")
+@Document(collection = "categories")
 public class Category implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id; // ID no MongoDB é String
+
     private String name;
 
-    @JsonIgnore // Prevents infinite recursion during JSON serialization
-    @OneToMany(mappedBy = "category")
+    @JsonIgnore
+    @DBRef(lazy = true)
     private List<Product> products = new ArrayList<>();
 
     public Category() {}
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }

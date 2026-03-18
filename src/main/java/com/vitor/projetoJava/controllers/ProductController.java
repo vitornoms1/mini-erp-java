@@ -24,7 +24,7 @@ public class ProductController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Product> findById(@PathVariable Long id) {
+    public ResponseEntity<Product> findById(@PathVariable String id) {
         Product obj = service.findById(id);
         return ResponseEntity.ok().body(obj);
     }
@@ -38,19 +38,19 @@ public class ProductController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable String id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody Product obj) {
+    public ResponseEntity<Product> update(@PathVariable String id, @RequestBody Product obj) {
         obj = service.update(id, obj);
         return ResponseEntity.ok().body(obj);
     }
 
     @PostMapping(value = "/{id}/reduce")
-    public ResponseEntity<Product> reduceStock(@PathVariable Long id, @RequestParam Integer quantity) {
+    public ResponseEntity<Product> reduceStock(@PathVariable String id, @RequestParam Integer quantity) {
         Product product = service.reduceStock(id, quantity);
         return ResponseEntity.ok().body(product);
     }

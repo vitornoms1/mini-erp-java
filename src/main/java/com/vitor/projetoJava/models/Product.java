@@ -1,45 +1,43 @@
 package com.vitor.projetoJava.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Objects;
 
 /**
- * Entity representing a product with audit fields.
+ * Document representing a product with audit fields in MongoDB.
  */
-@Entity
-@Table(name = "tb_products")
+@Document(collection = "products")
 public class Product implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id; // ID no MongoDB é String
 
     private String name;
     private BigDecimal price;
     private Integer quantity;
 
-    @Column(updatable = false)
-    @CreationTimestamp
+    @CreatedDate
     private Instant createdAt;
 
-    @UpdateTimestamp
+    @LastModifiedDate
     private Instant updatedAt;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
+    @DBRef
     private Category category;
 
     public Product() {}
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }

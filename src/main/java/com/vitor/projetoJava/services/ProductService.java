@@ -10,7 +10,7 @@ import java.util.Optional;
 
 /**
  * Service layer for Product operations.
- * Implements full CRUD logic.
+ * Implements full CRUD logic with MongoDB.
  */
 @Service
 public class ProductService {
@@ -22,7 +22,7 @@ public class ProductService {
         return repository.findAll();
     }
 
-    public Product findById(Long id) {
+    public Product findById(String id) {
         Optional<Product> obj = repository.findById(id);
         return obj.orElseThrow(() -> new RuntimeException("Product not found with ID: " + id));
     }
@@ -31,15 +31,15 @@ public class ProductService {
         return repository.save(obj);
     }
 
-    public void delete(Long id) {
+    public void delete(String id) {
         if (!repository.existsById(id)) {
             throw new RuntimeException("Cannot delete. Product not found with ID: " + id);
         }
         repository.deleteById(id);
     }
 
-    public Product update(Long id, Product obj) {
-        Product entity = repository.getReferenceById(id);
+    public Product update(String id, Product obj) {
+        Product entity = findById(id); // Substituindo o antigo getReferenceById
         updateData(entity, obj);
         return repository.save(entity);
     }
@@ -48,9 +48,13 @@ public class ProductService {
         entity.setName(obj.getName());
         entity.setPrice(obj.getPrice());
         entity.setQuantity(obj.getQuantity());
+        // Se a categoria vier no objeto de atualização, você pode atualizar também:
+        if(obj.getCategory() != null) {
+            entity.setCategory(obj.getCategory());
+        }
     }
 
-    public Product reduceStock(Long id, Integer quantityToReduce) {
+    public Product reduceStock(String id, Integer quantityToReduce) {
         Product product = findById(id);
         if (product.getQuantity() < quantityToReduce) {
             throw new RuntimeException("Not enough stock for product: " + product.getName());

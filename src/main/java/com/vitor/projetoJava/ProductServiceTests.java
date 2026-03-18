@@ -1,41 +1,70 @@
 package com.vitor.projetoJava;
 
+import com.vitor.projetoJava.models.Category;
 import com.vitor.projetoJava.models.Product;
+import com.vitor.projetoJava.repositories.CategoryRepository;
+import com.vitor.projetoJava.repositories.ProductRepository;
 import com.vitor.projetoJava.services.ProductService;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
 /**
- * Unit tests for ProductService business logic.
+ * Unit tests for ProductService business logic with MongoDB.
  */
 @SpringBootTest
-@Transactional
 public class ProductServiceTests {
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+
     @Autowired
     private ProductService service;
 
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    private String validProductId;
+
+    // Antes de cada teste, limpa o banco e cria um produto fresquinho
+    @BeforeEach
+    public void setUp() {
+        productRepository.deleteAll();
+        categoryRepository.deleteAll();
+
+        Category cat = new Category();
+        cat.setName("Test Category");
+        categoryRepository.save(cat);
+
+        Product p = new Product();
+        p.setName("Test Product");
+        p.setPrice(new BigDecimal("100.00"));
+        p.setQuantity(10);
+        p.setCategory(cat);
+
+        // Salva e guarda o ID em String gerado pelo MongoDB
+        p = productRepository.save(p);
+        validProductId = p.getId();
+    }
+
     @Test
     public void reduceStockShouldDecreaseQuantityWhenStockIsSufficient() {
-        // Testing if stock reduces correctly
-        Integer initialStock = 10;
         Integer quantityToReduce = 3;
 
-        Product product = service.reduceStock(1L, quantityToReduce);
+        // Usa a String de ID gerada no setUp
+        Product product = service.reduceStock(validProductId, quantityToReduce);
 
         Assertions.assertEquals(7, product.getQuantity());
     }
 
     @Test
     public void reduceStockShouldThrowExceptionWhenStockIsInsufficient() {
-        // Testing if system prevents negative stock
         Assertions.assertThrows(RuntimeException.class, () -> {
-            service.reduceStock(1L, 100);
+            service.reduceStock(validProductId, 100);
         });
     }
 }
