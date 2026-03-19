@@ -6,8 +6,11 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -21,18 +24,26 @@ public class Product implements Serializable {
     @Id
     private String id; // ID no MongoDB é String
 
+    @NotBlank(message = "O nome do produto é obrigatório")
     private String name;
-    private BigDecimal price;
+
+    @NotNull(message = "O preço é obrigatório")
+    @Min(value = 0, message = "O preço não pode ser negativo")
+    private Double price;
+
+    @NotNull(message = "A quantidade é obrigatória")
+    @Min(value = 0, message = "A quantidade não pode ser negativa")
     private Integer quantity;
+
+    @NotNull(message = "A categoria é obrigatória")
+    @DBRef(lazy = true)
+    private Category category;
 
     @CreatedDate
     private Instant createdAt;
 
     @LastModifiedDate
     private Instant updatedAt;
-
-    @DBRef
-    private Category category;
 
     public Product() {}
 
@@ -42,14 +53,17 @@ public class Product implements Serializable {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
-    public BigDecimal getPrice() { return price; }
-    public void setPrice(BigDecimal price) { this.price = price; }
+    public Double getPrice() { return price; }
+    public void setPrice(Double price) { this.price = price; }
 
     public Integer getQuantity() { return quantity; }
     public void setQuantity(Integer quantity) { this.quantity = quantity; }
 
     public Instant getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
+
     public Instant getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(Instant updatedAt) { this.updatedAt = updatedAt; }
 
     public Category getCategory() { return category; }
     public void setCategory(Category category) { this.category = category; }

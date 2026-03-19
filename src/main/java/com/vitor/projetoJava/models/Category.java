@@ -10,17 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Document representing a product category in MongoDB.
- */
 @Document(collection = "categories")
 public class Category implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    private String id; // ID no MongoDB é String
+    private String id;
 
     private String name;
+
+    // NOVO CAMPO AQUI
+    private String description;
 
     @JsonIgnore
     @DBRef(lazy = true)
@@ -33,6 +33,10 @@ public class Category implements Serializable {
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
+
+    // NOVOS GETTERS E SETTERS
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
     public List<Product> getProducts() { return products; }
 

@@ -29,12 +29,25 @@ public class CategoryController {
         return ResponseEntity.ok().body(obj);
     }
 
-    // NOVA ROTA: Recebe o POST do React e salva a Categoria
     @PostMapping
     public ResponseEntity<Category> insert(@RequestBody Category obj) {
         obj = service.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).body(obj);
+    }
+
+    // NOVA ROTA: Deletar Categoria
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    // NOVA ROTA: Atualizar Categoria
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Category> update(@PathVariable String id, @RequestBody Category obj) {
+        obj = service.update(id, obj);
+        return ResponseEntity.ok().body(obj);
     }
 }

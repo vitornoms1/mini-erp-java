@@ -1,25 +1,29 @@
 package com.vitor.projetoJava.services;
 
+import com.vitor.projetoJava.models.Category;
 import com.vitor.projetoJava.models.Product;
+import com.vitor.projetoJava.repositories.CategoryRepository;
 import com.vitor.projetoJava.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+// NOVAS IMPORTAÇÕES PARA PAGINAÇÃO
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
-/**
- * Service layer for Product operations.
- * Implements full CRUD logic with MongoDB.
- */
 @Service
 public class ProductService {
 
     @Autowired
     private ProductRepository repository;
 
-    public List<Product> findAll() {
-        return repository.findAll();
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    // NOVO: Método agora recebe um Pageable e devolve um Page<Product>
+    public Page<Product> findAllPaged(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     public Product findById(String id) {
@@ -28,6 +32,11 @@ public class ProductService {
     }
 
     public Product insert(Product obj) {
+        if (obj.getCategory() != null && obj.getCategory().getId() != null) {
+            Category categoryCompleta = categoryRepository.findById(obj.getCategory().getId())
+                    .orElseThrow(() -> new RuntimeException("Category not found with ID: " + obj.getCategory().getId()));
+            obj.setCategory(categoryCompleta);
+        }
         return repository.save(obj);
     }
 
@@ -39,7 +48,7 @@ public class ProductService {
     }
 
     public Product update(String id, Product obj) {
-        Product entity = findById(id); // Substituindo o antigo getReferenceById
+        Product entity = findById(id);
         updateData(entity, obj);
         return repository.save(entity);
     }
@@ -48,9 +57,11 @@ public class ProductService {
         entity.setName(obj.getName());
         entity.setPrice(obj.getPrice());
         entity.setQuantity(obj.getQuantity());
-        // Se a categoria vier no objeto de atualização, você pode atualizar também:
-        if(obj.getCategory() != null) {
-            entity.setCategory(obj.getCategory());
+
+        if(obj.getCategory() != null && obj.getCategory().getId() != null) {
+            Category categoryCompleta = categoryRepository.findById(obj.getCategory().getId())
+                    .orElseThrow(() -> new RuntimeException("Category not found"));
+            entity.setCategory(categoryCompleta);
         }
     }
 

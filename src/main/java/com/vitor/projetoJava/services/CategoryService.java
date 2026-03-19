@@ -23,8 +23,25 @@ public class CategoryService {
         return obj.orElseThrow(() -> new RuntimeException("Category not found with ID: " + id));
     }
 
-    // NOVO MÉTODO: Para salvar no banco
     public Category insert(Category obj) {
         return repository.save(obj);
+    }
+
+    // NOVO: Método para deletar
+    public void delete(String id) {
+        if (!repository.existsById(id)) {
+            throw new RuntimeException("Cannot delete. Category not found with ID: " + id);
+        }
+        repository.deleteById(id);
+    }
+
+    // NOVO: Método para atualizar
+    public Category update(String id, Category obj) {
+        Category entity = findById(id);
+        entity.setName(obj.getName());
+
+        entity.setDescription(obj.getDescription());
+
+        return repository.save(entity);
     }
 }
