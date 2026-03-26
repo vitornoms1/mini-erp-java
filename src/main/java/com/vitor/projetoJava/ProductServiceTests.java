@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.math.BigDecimal;
+// A importação do BigDecimal foi removida!
 
 /**
  * Unit tests for ProductService business logic with MongoDB.
@@ -42,7 +42,10 @@ public class ProductServiceTests {
 
         Product p = new Product();
         p.setName("Test Product");
-        p.setPrice(new BigDecimal("100.00"));
+
+        // CORREÇÃO: Passando o valor como Double diretamente
+        p.setPrice(100.00);
+
         p.setQuantity(10);
         p.setCategory(cat);
 

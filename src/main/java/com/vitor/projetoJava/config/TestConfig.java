@@ -9,7 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import java.math.BigDecimal;
+// A importação do BigDecimal foi removida daqui!
 import java.util.Arrays;
 
 /**
@@ -46,13 +46,19 @@ public class TestConfig implements CommandLineRunner {
         // 2. Creating products and linking them to categories
         Product p1 = new Product();
         p1.setName("Laptop SAP Edition");
-        p1.setPrice(new BigDecimal("3500.00"));
+
+        // CORREÇÃO 1: Passando 3500.00 direto como Double
+        p1.setPrice(3500.00);
+
         p1.setQuantity(10);
         p1.setCategory(cat1);
 
         Product p2 = new Product();
         p2.setName("Wireless Mouse");
-        p2.setPrice(new BigDecimal("150.00"));
+
+        // CORREÇÃO 2: Passando 150.00 direto como Double
+        p2.setPrice(150.00);
+
         p2.setQuantity(50);
         p2.setCategory(cat2);
 

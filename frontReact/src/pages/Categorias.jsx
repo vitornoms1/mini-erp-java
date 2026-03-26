@@ -69,8 +69,11 @@ const Categorias = () => {
 
   const handleExcluirCategoria = async (categoriaParaExcluir) => {
     try {
-      const responseProdutos = await api.get('/products');
-      const todosProdutos = responseProdutos.data;
+      // AJUSTE 1: Adicionamos ?size=1000 para buscar todos os produtos de uma vez
+      const responseProdutos = await api.get('/products?size=1000');
+      
+      // AJUSTE 2: Adicionamos .content para pegar o array de produtos de dentro da paginação
+      const todosProdutos = responseProdutos.data.content;
 
       const produtosVinculados = todosProdutos.filter(
         (p) => p.category && p.category.id === categoriaParaExcluir.id
