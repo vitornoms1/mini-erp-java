@@ -8,16 +8,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.Instant;
 
-/**
- * Global exception handler that intercepts business logic errors.
- */
-@ControllerAdvice // This annotation allows this class to handle exceptions across the whole app
+@ControllerAdvice
 public class ResourceExceptionHandler {
 
-    @ExceptionHandler(RuntimeException.class) // Tells Spring to trigger this when a RuntimeException occurs
+    @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<StandardError> stockError(RuntimeException e, HttpServletRequest request) {
         String error = "Business Logic Error";
-        HttpStatus status = HttpStatus.BAD_REQUEST; // Code 400
+        HttpStatus status = HttpStatus.BAD_REQUEST;
 
         StandardError err = new StandardError();
         err.setTimestamp(Instant.now());

@@ -11,11 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-// A importação do BigDecimal foi removida!
 
-/**
- * Unit tests for ProductService business logic with MongoDB.
- */
 @SpringBootTest
 public class ProductServiceTests {
 
@@ -30,7 +26,6 @@ public class ProductServiceTests {
 
     private String validProductId;
 
-    // Antes de cada teste, limpa o banco e cria um produto fresquinho
     @BeforeEach
     public void setUp() {
         productRepository.deleteAll();
@@ -43,13 +38,11 @@ public class ProductServiceTests {
         Product p = new Product();
         p.setName("Test Product");
 
-        // CORREÇÃO: Passando o valor como Double diretamente
         p.setPrice(100.00);
 
         p.setQuantity(10);
         p.setCategory(cat);
 
-        // Salva e guarda o ID em String gerado pelo MongoDB
         p = productRepository.save(p);
         validProductId = p.getId();
     }
@@ -58,7 +51,6 @@ public class ProductServiceTests {
     public void reduceStockShouldDecreaseQuantityWhenStockIsSufficient() {
         Integer quantityToReduce = 3;
 
-        // Usa a String de ID gerada no setUp
         Product product = service.reduceStock(validProductId, quantityToReduce);
 
         Assertions.assertEquals(7, product.getQuantity());

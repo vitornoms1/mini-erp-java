@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import jakarta.validation.Valid; // IMPORTAÇÃO DA VALIDAÇÃO
+import jakarta.validation.Valid;
 import java.net.URI;
 
 @RestController
@@ -35,7 +35,6 @@ public class ProductController {
         return ResponseEntity.ok().body(obj);
     }
 
-    // ADICIONADO O @Valid AQUI
     @PostMapping
     public ResponseEntity<Product> insert(@Valid @RequestBody Product obj) {
         obj = service.insert(obj);
@@ -50,7 +49,6 @@ public class ProductController {
         return ResponseEntity.noContent().build();
     }
 
-    // ADICIONADO O @Valid AQUI
     @PutMapping(value = "/{id}")
     public ResponseEntity<Product> update(@PathVariable String id, @Valid @RequestBody Product obj) {
         obj = service.update(id, obj);

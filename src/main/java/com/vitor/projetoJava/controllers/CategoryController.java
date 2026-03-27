@@ -37,14 +37,12 @@ public class CategoryController {
         return ResponseEntity.created(uri).body(obj);
     }
 
-    // NOVA ROTA: Deletar Categoria
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable String id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-    // NOVA ROTA: Atualizar Categoria
     @PutMapping(value = "/{id}")
     public ResponseEntity<Category> update(@PathVariable String id, @RequestBody Category obj) {
         obj = service.update(id, obj);

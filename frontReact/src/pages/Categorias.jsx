@@ -10,7 +10,7 @@ const Categorias = () => {
   const [editandoId, setEditandoId] = useState(null); 
   const [novaCategoria, setNovaCategoria] = useState({
     name: '',
-    description: '' // Mudamos para description
+    description: ''
   });
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const Categorias = () => {
 
   const abrirModalNovo = () => {
     setEditandoId(null);
-    setNovaCategoria({ name: '', description: '' }); // Mudamos aqui
+    setNovaCategoria({ name: '', description: '' });
     setIsModalOpen(true);
   };
 
@@ -43,7 +43,7 @@ const Categorias = () => {
     setEditandoId(categoria.id);
     setNovaCategoria({
       name: categoria.name,
-      description: categoria.description || '' // Mudamos aqui
+      description: categoria.description || ''
     });
     setIsModalOpen(true);
   };
@@ -69,10 +69,8 @@ const Categorias = () => {
 
   const handleExcluirCategoria = async (categoriaParaExcluir) => {
     try {
-      // AJUSTE 1: Adicionamos ?size=1000 para buscar todos os produtos de uma vez
       const responseProdutos = await api.get('/products?size=1000');
       
-      // AJUSTE 2: Adicionamos .content para pegar o array de produtos de dentro da paginação
       const todosProdutos = responseProdutos.data.content;
 
       const produtosVinculados = todosProdutos.filter(
@@ -134,7 +132,6 @@ const Categorias = () => {
                       {categoria.name}
                     </span>
                   </td>
-                  {/* LENDO O CAMPO DESCRIPTION CORRETO AGORA */}
                   <td className="p-4 text-gray-600">{categoria.description || 'Sem descrição'}</td>
                   <td className="p-4 flex justify-center gap-3">
                     <button 
@@ -182,7 +179,7 @@ const Categorias = () => {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Descrição</label>
                 <textarea 
-                  name="description" rows="3" value={novaCategoria.description} onChange={handleInputChange} // Alterado name para description
+                  name="description" rows="3" value={novaCategoria.description} onChange={handleInputChange} 
                   className="w-full border border-gray-300 rounded-lg p-2 focus:border-indigo-500 focus:outline-none resize-none"
                   placeholder="Breve descrição dos produtos desta categoria..."
                 ></textarea>

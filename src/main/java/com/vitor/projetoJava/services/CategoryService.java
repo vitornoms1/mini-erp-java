@@ -27,7 +27,6 @@ public class CategoryService {
         return repository.save(obj);
     }
 
-    // NOVO: Método para deletar
     public void delete(String id) {
         if (!repository.existsById(id)) {
             throw new RuntimeException("Cannot delete. Category not found with ID: " + id);
@@ -35,7 +34,6 @@ public class CategoryService {
         repository.deleteById(id);
     }
 
-    // NOVO: Método para atualizar
     public Category update(String id, Category obj) {
         Category entity = findById(id);
         entity.setName(obj.getName());

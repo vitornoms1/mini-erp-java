@@ -8,13 +8,11 @@ const Produtos = () => {
   const [categorias, setCategorias] = useState([]);
   const [loading, setLoading] = useState(true);
   
-  // ================= ESTADOS DE PAGINAÇÃO ================= //
   const [paginaAtual, setPaginaAtual] = useState(0);
   const [totalPaginas, setTotalPaginas] = useState(0);
   
-  // Estado para a barra de pesquisa
   const [termoPesquisa, setTermoPesquisa] = useState('');
-  const [tipoFiltro, setTipoFiltro] = useState('nome'); // 'nome' ou 'categoria'
+  const [tipoFiltro, setTipoFiltro] = useState('nome');
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editandoId, setEditandoId] = useState(null);
@@ -26,12 +24,10 @@ const Produtos = () => {
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
   const [qtdBaixa, setQtdBaixa] = useState('');
 
-  // Busca as categorias apenas UMA vez quando a tela abre
   useEffect(() => {
     buscarCategorias();
   }, []);
 
-  // Busca os produtos SEMPRE que a páginaAtual mudar
   useEffect(() => {
     buscarProdutos();
   }, [paginaAtual]);
@@ -48,10 +44,8 @@ const Produtos = () => {
   const buscarProdutos = async () => {
     try {
       setLoading(true);
-      // Chamada à API com paginação (ex: 5 itens por página)
       const response = await api.get(`/products?page=${paginaAtual}&size=5`);
       
-      // O Spring Boot devolve os dados dentro de "content"
       setProdutos(response.data.content);
       setTotalPaginas(response.data.totalPages);
     } catch (error) {
@@ -102,7 +96,7 @@ const Produtos = () => {
         toast.success("Produto salvo com sucesso!");
       }
       setIsModalOpen(false);
-      buscarProdutos(); // Recarrega os dados para manter a paginação correta
+      buscarProdutos();
     } catch (error) {
       console.error("Erro ao salvar produto:", error);
       toast.error("Erro ao salvar o produto. Verifique os dados.");
@@ -116,7 +110,7 @@ const Produtos = () => {
         const toastId = toast.loading("A excluir produto...");
         await api.delete(`/products/${id}`);
         toast.success("Produto excluído!", { id: toastId });
-        buscarProdutos(); // Recarrega os dados
+        buscarProdutos();
       } catch (error) {
         console.error("Erro ao excluir:", error);
         toast.error("Erro ao excluir o produto.");
@@ -143,21 +137,18 @@ const Produtos = () => {
       await api.post(`/products/${produtoSelecionado.id}/reduce?quantity=${quantidadeReduzir}`);
       toast.success(`Baixa de ${quantidadeReduzir} unidades registada!`);
       setIsBaixaModalOpen(false);
-      buscarProdutos(); // Recarrega os dados
+      buscarProdutos();
     } catch (error) {
       console.error("Erro ao reduzir estoque:", error);
       toast.error(error.response?.data?.message || "Estoque insuficiente.");
     }
   };
 
-  // ================= LÓGICA DE FILTRAGEM ================= //
   const produtosFiltrados = produtos.filter(produto => {
     const termo = termoPesquisa.toLowerCase();
     
-    // Pesquisa por Nome
     const nomeMatch = produto.name.toLowerCase().includes(termo);
     
-    // Pesquisa por Categoria
     const categoriaMatch = produto.category && 
                            produto.category.name && 
                            produto.category.name.toLowerCase().includes(termo);
@@ -264,7 +255,6 @@ const Produtos = () => {
           </table>
         </div>
 
-        {/* ================= BARRA DE PAGINAÇÃO ================= */}
         {!loading && totalPaginas > 0 && (
           <div className="bg-gray-50 p-4 border-t border-gray-200 flex items-center justify-between">
             <button 
@@ -290,7 +280,6 @@ const Produtos = () => {
         )}
       </div>
 
-      {/* Modal de Criar/Editar Produto */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl shadow-2xl w-full max-w-md p-6">
@@ -337,7 +326,6 @@ const Produtos = () => {
         </div>
       )}
 
-      {/* Modal de Redução de Stock */}
       {isBaixaModalOpen && produtoSelecionado && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl shadow-2xl w-full max-w-sm p-6 border-t-4 border-orange-500">

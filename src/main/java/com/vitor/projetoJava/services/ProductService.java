@@ -5,7 +5,6 @@ import com.vitor.projetoJava.models.Product;
 import com.vitor.projetoJava.repositories.CategoryRepository;
 import com.vitor.projetoJava.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-// NOVAS IMPORTAÇÕES PARA PAGINAÇÃO
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,6 @@ public class ProductService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    // NOVO: Método agora recebe um Pageable e devolve um Page<Product>
     public Page<Product> findAllPaged(Pageable pageable) {
         return repository.findAll(pageable);
     }

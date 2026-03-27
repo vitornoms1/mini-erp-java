@@ -13,7 +13,6 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
 
   return (
     <>
-      {/* Fundo escuro quando o menu abre no celular */}
       {isOpen && (
         <div 
           className="fixed inset-0 bg-black/50 z-40 md:hidden"
@@ -21,7 +20,6 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
         ></div>
       )}
 
-      {/* O Menu em si */}
       <div className={`
         fixed top-0 left-0 h-screen w-64 bg-gray-900 text-white flex flex-col shadow-2xl z-50
         transition-transform duration-300 ease-in-out
@@ -33,7 +31,6 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
             <FaBox className="text-indigo-500" />
             ERP System
           </div>
-          {/* Botão de fechar no celular */}
           <button className="md:hidden text-gray-400 hover:text-white" onClick={closeSidebar}>
             <FaTimes size={24} />
           </button>
@@ -45,7 +42,7 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
               <li key={item.name}>
                 <Link
                   to={item.path}
-                  onClick={closeSidebar} // Fecha o menu ao clicar num link (no celular)
+                  onClick={closeSidebar}
                   className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors font-medium ${
                     location.pathname === item.path
                       ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/30'

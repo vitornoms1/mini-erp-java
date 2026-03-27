@@ -60,7 +60,6 @@ const Dashboard = () => {
   }
 
   return (
-    // AJUSTE 1: Espaçamento menor no celular (p-4) e maior no PC (md:p-8)
     <div className="p-4 md:p-8 w-full max-w-7xl mx-auto">
       
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-4">
@@ -112,10 +111,8 @@ const Dashboard = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
         
-        {/* AJUSTE 3: min-w-0 evita que o Recharts estique a tela no celular */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-6 lg:col-span-2 min-w-0">
           <h2 className="text-base sm:text-lg font-bold text-gray-800 mb-4 sm:mb-6">Distribuição por Categoria</h2>
-          {/* h-64 no celular, h-72 no pc */}
           <div className="h-64 sm:h-72 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={dados.dadosGraficoBarras} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>

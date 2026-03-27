@@ -14,15 +14,12 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
-/**
- * Document representing a product with audit fields in MongoDB.
- */
 @Document(collection = "products")
 public class Product implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    private String id; // ID no MongoDB é String
+    private String id;
 
     @NotBlank(message = "O nome do produto é obrigatório")
     private String name;
